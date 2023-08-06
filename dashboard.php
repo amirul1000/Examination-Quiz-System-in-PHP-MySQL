@@ -13,8 +13,7 @@ if(!isset($_SESSION["username"]))
 
 
     <div class="row" style="margin: 0px; padding:0px; margin-bottom: 50px;min-height: 500px; background-color: white;">
-
-
+           
             <!-- start editing-->
             <br>
             <div class="row">
@@ -25,7 +24,14 @@ if(!isset($_SESSION["username"]))
                         <div style="float:left">/</div>
                         <div id="total_que" style="float:left">0</div>
                      </span>
+                     
+                       <ul style="list-style-type:none;float:right;" class="breadcome-menu">
+                            <li>
+                               <div id="countdowntimer" style="display: block;"></div> 
+                            </li>
+                        </ul>
                 </div>
+                
 
                 <div  class="col-md-12">
                        <div class="card">
@@ -130,6 +136,35 @@ if(!isset($_SESSION["username"]))
         questionno=eval(questionno)+1;
         load_questions(questionno);
     }
+	
+	
+	//$( document ).ready(function() {
+    setInterval(function(){
+        timer();
+    },1000);
+	
+//});	
+	
+    function timer()
+    {
+		 
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                if(xmlhttp.responseText=="00:00:01")
+                {
+                    window.location="result.php";
+                }
+
+                document.getElementById("countdowntimer").innerHTML=xmlhttp.responseText;
+
+            }
+        };
+        xmlhttp.open("GET","forajax/load_timer.php",true);
+        xmlhttp.send(null);
+    }
+
 
 </script>
 
